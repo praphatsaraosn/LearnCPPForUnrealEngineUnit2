@@ -199,7 +199,8 @@ void AEnemy::MoveToTarget(AMain* Target)
 		FNavPathSharedPtr NavPath;
 
 		AIController->MoveTo(MoveRequest, &NavPath);
-
+		
+		// เช็ค Location
 		/**
 		auto PathPoints = NavPath->GetPathPoints();
 		for (auto Point : PathPoints)
