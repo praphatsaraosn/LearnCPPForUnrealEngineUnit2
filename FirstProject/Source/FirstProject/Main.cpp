@@ -25,16 +25,19 @@ AMain::AMain()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
+	// เขียนคำสั่งให้กล้อง
 	// Create Camera Boom (pulls towards the player if there's a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(GetRootComponent());
 	CameraBoom->TargetArmLength = 600.f; // Camera follows at this distance
 	CameraBoom->bUsePawnControlRotation = true; // Rotate arm based on controller
 
+	// เซ็ตแคปซูล
 	// Set size for collision capsule
 	GetCapsuleComponent()->SetCapsuleSize(48.f, 105.f);
 
+	// เขียนให้กล้องติดตาม
 	// Create Follow Camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
@@ -51,12 +54,14 @@ AMain::AMain()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 
+	// กำหนด Movement ให้ Character เบื้องต้น
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 650.f;
 	GetCharacterMovement()->AirControl = 0.2f;
-
+	
+	// กำหนดค่าตั้งต้นให้ เลือด มานา และ เหรียญ
 	MaxHealth = 100.f;
 	Health = 65.f;
 	MaxStamina = 150.f;
@@ -87,6 +92,7 @@ AMain::AMain()
 	bESCDown = false;
 }
 
+// เรียกเมื่อเริ่มเกม
 // Called when the game starts or when spawned
 void AMain::BeginPlay()
 {
@@ -101,6 +107,7 @@ void AMain::BeginPlay()
 	}
 }
 
+// เรียกทุกๆ เฟลม
 // Called every frame
 void AMain::Tick(float DeltaTime)
 {
@@ -133,7 +140,7 @@ void AMain::Tick(float DeltaTime)
 				SetMovementStatus(EMovementStatus::EMS_Normal);
 			}
 		}
-		else // Shift key up
+		else // Shift key up (เมื่อไม่ได้กด Shift)
 		{
 			if (Stamina + DeltaStamina >= MaxStamina)
 			{
@@ -168,7 +175,7 @@ void AMain::Tick(float DeltaTime)
 				}
 			}
 		}
-		else // Shift key up
+		else // Shift key up (เมื่อกด Shift)
 		{
 			if (Stamina + DeltaStamina >= MinSprintStamina)
 			{
@@ -187,7 +194,7 @@ void AMain::Tick(float DeltaTime)
 		{
 			Stamina = 0.f;
 		}
-		else // Shift key up
+		else // Shift key up (เมื่อไม่ได้กด Shift)
 		{
 			SetStaminaStatus(EStaminaStatus::ESS_ExhaustedRecovering);
 			Stamina += DeltaStamina;
@@ -235,7 +242,8 @@ FRotator AMain::GetLookAtRotationYaw(FVector Target)
 	return LookAtRotationYaw;
 }
 
-// Called to bind functionality to input
+// เรียกฟังก์ชั่นผูกกับอินพุต
+// Called to bind functionality to input 
 void AMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
