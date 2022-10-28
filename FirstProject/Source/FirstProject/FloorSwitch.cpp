@@ -33,6 +33,7 @@ AFloorSwitch::AFloorSwitch()
 	bCharacterOnSwitch = false;
 }
 
+// เรียกเมื่อเริ่มเกม
 // Called when the game starts or when spawned
 void AFloorSwitch::BeginPlay()
 {
@@ -46,6 +47,7 @@ void AFloorSwitch::BeginPlay()
 	
 }
 
+// เรียกทุกๆ เฟลม
 // Called every frame
 void AFloorSwitch::Tick(float DeltaTime)
 {
